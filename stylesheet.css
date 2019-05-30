@@ -22,3 +22,19 @@
     background-color: rgba(255,191,0,0.7);
     padding: 0px 5px;
 }
+
+.white {
+    font-weight: bold;
+    color: #ffffff;
+    background-color: rgba(0,0,0,0.7);
+    padding: 0px 5px;
+}
+
+.offwhite {
+    font-weight: bold;
+    color: #cccccc;
+    background-color: rgba(0,0,0,0.7);
+    padding: 0px 5px;
+}
+
+

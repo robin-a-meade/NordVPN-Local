@@ -9,19 +9,20 @@ const Mainloop  = imports.mainloop;
 const ByteArray = imports.byteArray;
 
 // Commands to run
-const CMD_VPNSTATUS  = "nordvpn status";
-const CMD_CONNECT    = "nordvpn c";
-const CMD_DISCONNECT = "nordvpn d";
+const CMD_VPNSTATUS  = "cpvpn status";
+const CMD_CONNECT    = "cpvpn start";
+const CMD_DISCONNECT = "cpvpn stop";
 // Menu display text
 const MENU_CONNECT       = "Connect";
 const MENU_DISCONNECT    = "Disconnect";
 // How many refreshes the state is overridden for
-const STATE_OVERRIDE_DURATION=10
+const STATE_OVERRIDE_DURATION=2
 // VPN states and associated config
 let _states = {
     "Status: Connected": { 
+        "panelText":"CPVPN ✔",
         "panelShowServer":true, // Indicates the panel text is built up with the country and ID of the VPN server
-        "styleClass":"green",   // CSS class for panel button
+        "styleClass":"white",   // CSS class for panel button
         "canConnect":false,     // Connect menu item enabled true/false
         "canDisconnect":true,   // Disconnect menu item enabled true/false
         "refreshTimeout":30,    // Seconds to refresh when this is the status
@@ -36,8 +37,8 @@ let _states = {
         "overrideId":1               // Allows an override of this state to be cleared by a state with clearsOverrideId of the same ID
     },
     "Status: Disconnected": { 
-        "panelText":"UNPROTECTED",
-        "styleClass":"red",
+        "panelText":"CPVPN",
+        "styleClass":"offwhite",
         "canConnect":true,
         "canDisconnect":false,
         "refreshTimeout":10,
@@ -164,16 +165,8 @@ const VpnIndicator = new Lang.Class({
     _updatePanel(vpnStatus, statusText) {
         let panelText;
 
-        // If connected, build up the panel text based on the server location and number
-        if (vpnStatus.panelShowServer) {
-            let statusLines = statusText.split('\n');
-            let country = statusLines[2].replace("Country: ", "").toUpperCase();
-            let serverNumber = statusLines[1].match(/\d+/);
-            panelText  = country + " #" + serverNumber;
-        }
-
         // Update the panel button
-        _panelLabel.text = panelText || vpnStatus.panelText;
+        _panelLabel.text = vpnStatus.panelText;
         _panelLabel.style_class = vpnStatus.styleClass;
     },
 
